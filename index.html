@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>慢箋領藥日期計算機 | 邱楠超</title>
+    <title>慢箋領藥日期計算機 | 蝦仁藥師</title>
     <meta name="description" content="慢性病連續處方箋領藥日期計算工具，支援假日提醒、行事曆下載與法規說明。">
     
     <!-- Tailwind CSS (鎖定 3.4.3) -->
@@ -390,7 +391,7 @@
                 try {
                     return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Taipei' });
                 } catch (e) {
-                    return new Date().toISOString().slice(0, 6);
+                    return new Date().toISOString().slice(0, 10);
                 }
             };
 
@@ -461,7 +462,7 @@
                     if (isNaN(d.getTime())) return null;
                     // 有效期限日 - 1天 = 最後可領藥日
                     const prevDateTimestamp = d.getTime() - 24 * 60 * 60 * 1000;
-                    return new Date(prevDateTimestamp).toISOString().slice(0, 6);
+                    return new Date(prevDateTimestamp).toISOString().slice(0, 10);
                 } catch (e) {
                     return null;
                 }
@@ -502,7 +503,7 @@
                 const totalDays = daysPerPrescription * totalRefills;
                 const expiryTimestamp = startTimestamp + (totalDays * oneDayMs);
                 const deadlineTimestamp = expiryTimestamp - oneDayMs;
-                const deadlineDateStr = new Date(deadlineTimestamp).toISOString().slice(0, 6);
+                const deadlineDateStr = new Date(deadlineTimestamp).toISOString().slice(0, 10);
 
                 if (newDate > deadlineDateStr) {
                     setTimeout(() => {
@@ -536,12 +537,12 @@
                     const totalDays = daysPerPrescription * totalRefills;
                     // 有效期限: 開立日 + 總天數
                     const expiryTimestamp = startTimestamp + (totalDays * oneDayMs);
-                    const expiryDateStr = new Date(expiryTimestamp).toISOString().slice(0, 6);
+                    const expiryDateStr = new Date(expiryTimestamp).toISOString().slice(0, 10);
                     setExpiryDate(expiryDateStr);
                     
                     // 「逾期無效日」的字串 (處方箋有效期限最後一天)
                     const deadlineTimestamp = expiryTimestamp - oneDayMs;
-                    const deadlineDateStr = new Date(deadlineTimestamp).toISOString().slice(0, 6);
+                    const deadlineDateStr = new Date(deadlineTimestamp).toISOString().slice(0, 10);
                     
                     const validLimitTimestamp = deadlineTimestamp; 
 
@@ -565,7 +566,7 @@
                         title: '第 1 次領藥 (就診日)',
                         pickupStart: startDate,
                         pickupEnd: startDate,
-                        medsEnd: new Date(medsEndTimestamp1).toISOString().slice(0, 6),
+                        medsEnd: new Date(medsEndTimestamp1).toISOString().slice(0, 10),
                         canDownload: false,
                         isEditable: true,
                         actualDate: actualDateInput1 || '',
@@ -586,7 +587,7 @@
                         let pickupStartTimestamp = idealNextCycleStartTimestamp - (6 * oneDayMs);
                         const pickupEndTimestamp = idealNextCycleStartTimestamp;
                         
-                        const idealMedsEndStr = new Date(idealNextCycleStartTimestamp).toISOString().slice(0, 6);
+                        const idealMedsEndStr = new Date(idealNextCycleStartTimestamp).toISOString().slice(0, 10);
                         let isSpringEarly = false;
 
                         if (isSpringEnabled && springStart && springEnd) {
@@ -599,8 +600,8 @@
                             }
                         }
 
-                        let pickupStartStr = new Date(pickupStartTimestamp).toISOString().slice(0, 6);
-                        let pickupEndStr = new Date(pickupEndTimestamp).toISOString().slice(0, 6);
+                        let pickupStartStr = new Date(pickupStartTimestamp).toISOString().slice(0, 10);
+                        let pickupEndStr = new Date(pickupEndTimestamp).toISOString().slice(0, 10);
 
                         const isOverdue = pickupStartTimestamp > deadlineTimestamp;
 
@@ -621,7 +622,7 @@
                         }
 
                         const medsEndTimestamp = effectiveStartTimestamp + (daysPerPrescription * oneDayMs);
-                        const finalMedsEndStr = new Date(medsEndTimestamp).toISOString().slice(0, 6);
+                        const finalMedsEndStr = new Date(medsEndTimestamp).toISOString().slice(0, 10);
 
                         calcResults.push({
                             id: refillId,
@@ -652,7 +653,7 @@
                 // 最後領藥日 = expiryDate - 1天
                 const d = new Date(expiryDate);
                 const prevDateTimestamp = d.getTime() - 24 * 60 * 60 * 1000;
-                return new Date(prevDateTimestamp).toISOString().slice(0, 6);
+                return new Date(prevDateTimestamp).toISOString().slice(0, 10);
             };
             const maxInputDate = getMaxInputDate();
 
